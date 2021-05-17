@@ -1,6 +1,5 @@
 streamlit==0.82.0
 pandas==1.2.4
-~umpy==1.18.1
 en_core_web_sm==3.0.0
 wordcloud==1.8.1
 matplotlib==3.4.1
