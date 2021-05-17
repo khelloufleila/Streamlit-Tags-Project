@@ -43,8 +43,9 @@ punct = punctuation
 # Load NLP packages
 import spacy
 from spacy import displacy
-nlp= spacy.load('en_core_web_sm')
-
+#nlp= spacy.load('en_core_web_sm')
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 
 
 # TODO: Change values below and observer the changes in your app
