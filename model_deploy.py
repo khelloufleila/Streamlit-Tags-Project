@@ -47,7 +47,7 @@ from spacy import displacy
 import en_core_web_sm
 nlp = en_core_web_sm.load()
 
-
+nltk.download('punkt')
 
 # TODO: Change values below and observer the changes in your app
 st.markdown(
