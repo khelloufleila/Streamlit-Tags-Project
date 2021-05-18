@@ -21,6 +21,7 @@ import re
 import pandas as pd 
 import nltk
 nltk.download('stopwords')
+nltk.download('punkt')
 from wordcloud import WordCloud
 from nltk.corpus import stopwords
 import spacy
