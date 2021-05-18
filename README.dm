@@ -11,3 +11,5 @@ the community in return. To do this, you develop a tag suggestion system for the
 This will take the form of a machine learning algorithm that automatically assigns several relevant tags to a question.
 
 [You can reach the application here.](https://share.streamlit.io/khelloufleila/streamlit-tags-project/Tags_Recommandation.py)
+
+
