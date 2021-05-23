@@ -1,5 +1,4 @@
-
-##Tag suggestion system
+# Tag suggestion system
 
 Stack Overflow is a popular IT development Q&A site. To ask a question on this site,
 you must enter several tags in order to easily find the question later.
@@ -11,6 +10,7 @@ the community in return. To do this, you develop a tag suggestion system for the
 This will take the form of a machine learning algorithm that automatically assigns several relevant tags to a question.
 
 [You can reach the application here.](https://share.streamlit.io/khelloufleila/streamlit-tags-project/model_deploy.py)
+
 
 
 
