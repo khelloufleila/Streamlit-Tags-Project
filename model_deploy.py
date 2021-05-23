@@ -11,6 +11,7 @@ from sklearn.linear_model import LogisticRegression
 
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.decomposition import LatentDirichletAllocation
 # Text Downloader
 
 import base64
@@ -46,8 +47,8 @@ from spacy import displacy
 #nlp= spacy.load('en_core_web_sm')
 import en_core_web_sm
 nlp = en_core_web_sm.load()
-
 nltk.download('punkt')
+
 
 # TODO: Change values below and observer the changes in your app
 st.markdown(
@@ -192,9 +193,66 @@ def main():
     st.info("khellouf leila project")
 
     raw_text = st.text_area("Enter your question Here","Type Here")
-        
 
-    if st.button("Tags Recommandation"):
+
+   # if st.button('Unsupervised Tags Recommandation'):
+    with st.beta_expander('Unsupervised Tags Recommandation'):
+    	if raw_text is not None: 
+    		raw_text=clean_text(raw_text)
+    		raw_text= BeautifulSoup(raw_text).get_text()
+    		raw_text= clean_punct(raw_text)
+    		raw_text= delete_multiple_space(raw_text)
+    		raw_text= remove_stopwords(raw_text)
+    		raw_text= remove_contract_form(raw_text)
+    		raw_text= stemm_text(raw_text)
+    		n_topics= 6
+    		threshold= 0.01
+    		lst_scores=[]
+    		lst_words= []
+    		used = set()
+
+    		vectorizer_text= TfidfVectorizer(analyzer='word',
+                                    min_df=0.01,
+                                    max_df=0.7,
+                                    strip_accents=None,
+                                    encoding='utf-8',
+                                    preprocessor=None,
+                                    token_pattern=r'(?u)\b\w+\b',
+                                    # token_pattern=r"(?u)\S\S+",
+                                    max_features=2000)
+
+    		X_IDF= vectorizer_text.fit_transform(x)
+    		X_idf= X_IDF.astype('float32')
+
+    		text_tfidf= vectorizer_text.transform([raw_text])
+    		# LDA
+    		lda_model= LatentDirichletAllocation(n_components= n_topics,
+    			max_iter= 10,
+    			learning_method='online',
+    			random_state=0).fit(X_idf)
+
+    		text_projection= lda_model.transform(text_tfidf)
+    		feature_names= vectorizer_text.get_feature_names()
+    		lda_components= lda_model.components_
+    		for topic in range(n_topics):
+    			topic_score= text_projection[0][topic]
+    			for (word_ids, word_score) in zip(lda_components[topic].argsort()[:-5:-1], sorted(lda_components[topic])[:-5:-1]):
+    				score= topic_score*word_score
+
+    				if score >= threshold:
+    					lst_scores.append(score)
+    					lst_words.append(feature_names[word_ids])
+    					used.add(feature_names[word_ids])
+
+    		results= [tag for (y, tag) in sorted( zip(lst_scores, lst_words), key=lambda pair: pair[:], reverse=True)]	
+    		tags= " ".join(results[:])	
+
+
+    		st.write(tags)
+
+
+   # if st.button("Supervised Tags Recommandation"):
+    with st.beta_expander("Supervised Tags Recommandation")	:
             #st.text("Original Text:\n{}".format(raw_text))
             if raw_text is not None:
                 raw_text= clean_text(raw_text)
@@ -234,7 +292,7 @@ def main():
                 tags_encod= multilabel_binarizer.inverse_transform(y_pred_encod)
 
                 #st.subheader('The Recommandation Tags are: ')
-                st.write(tags_encod)
+                st.write(tags_encod)            
 
 
 
