@@ -205,7 +205,7 @@ def main():
     		raw_text= remove_stopwords(raw_text)
     		raw_text= remove_contract_form(raw_text)
     		raw_text= stemm_text(raw_text)
-    		n_topics= 6
+    		n_topics= 5
     		threshold= 0.01
     		lst_scores=[]
     		lst_words= []
