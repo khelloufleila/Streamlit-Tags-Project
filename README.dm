@@ -1,4 +1,4 @@
- Tag suggestion system
+## Tag suggestion system
 
 Stack Overflow is a popular IT development Q&A site. To ask a question on this site,
 you must enter several tags in order to easily find the question later.
